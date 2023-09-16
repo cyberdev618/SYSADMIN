@@ -1,0 +1,45 @@
+
+#	Control how fstab handles mounting drives 	#
+
+find device uuid :
+  ls -l /dev/disk/by-uuid
+
+# Get Device Filesystem Type:
+  df -T  
+
+
+#tools
+  blkid
+  lsblk
+#editing fstab:
+#USB  
+/dev/$drive-partition  /mnt/$drive-partition auto    noauto,user 1   1 # change /dev/$drive-partition to UUID
+#VM images Partiton
+same as others 
+
+# overall GIST OF IT:
+1.)edit the /etc/fstab config file
+2.)add the UUID of the device 
+  # set the following
+  2.1)  the mount point
+  2.2) filesystem type  ie: btrfs exfat vfat ntfs ext4 etc 
+  2.3) set options
+  2.4) the dump field should always be 0 # its obsolete backup system
+  2.5) pass is the FileSystem Check order (fsck) 
+3.) sudo systemctl daemon-reload # reload systemd this will kill the window manmager and everything see BLACK
+
+
+
+# NOTE: After editing this file, run 'systemctl daemon-reload' to update systemd
+
+
+
+
+
+
+cite:
+https://www.binarytides.com/get-uuid-devices-linux/
+
+other useful websites:
+https://www.redhat.com/sysadmin/etc-fstab
+
