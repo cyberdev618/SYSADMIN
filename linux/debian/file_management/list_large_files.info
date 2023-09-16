@@ -1,0 +1,34 @@
+find /path/to/directory -type f -exec du -hs {} \;| sort -rh | head -n 1
+
+Command Description
+find /path/to/directory -type f List all the files under the specified directory and subdirectories
+du -sh  Display file size in human-readable format
+sort -rh        Reverse the result based on human-readable numbers
+head -1 Display the first largest file
+
+##############
+If you want to find the largest files on the entire system, you can use the following command:
+
+find / -type f -exec du -hs {} \; | sort -rh | head -n 1
+# WARNING this may take a while 
+
+
+######################################
+
+
+The du command is used to estimate the space used by a file or directory. We can pipe the output of the du command to the sort command to sort the files by size. Then use the head command to print the first few lines of the output.
+
+ du -sh * | sort -rh | head -1
+
+Open the terminal and type this command. It will list the largest files and directories under the current directory.
+
+We use the following commands in our examples.
+
+Command Description
+du -sh  Display file and directory size in human-readable format
+sort -rh        Reverse the result based on human-readable numbers
+head -1 Display the first largest files
+
+
+du -sh * | sort -rh | head -1
+

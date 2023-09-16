@@ -1,0 +1,53 @@
+#	THIS HOLDS INFO ON CMDS THAT RESULT IN USER INFO
+#	1.) lOGIN_SESSIONS AND PROCESSES 
+#	2.) LOCKING ACCOUNTS & KILLING PROCESSES
+#	3.) ARCHIVE USER HOME FOLDER
+#	4.) REMOVE CRON JOBS FOR SPECIFIC USERS
+#	5.) REMOVE PRINT JOBS
+#	6.) REMOVE ACCOUNTS 
+
+
+# whos logged in??
+who 
+echo "enter the user to target: ???"
+read username
+# review users 
+ps -u $username
+
+top -U $username
+
+
+#lock the account 
+
+  # this command returns the 1st of 2 fields on the entry for the user's account
+  sudo awk -F: '/$username/ {print $1,$2}' /etc/shadow
+
+  #then lock the account 
+  sudo passwd -l $username
+  
+#kill the users process 
+sudo pkill -KILL -u $username
+
+who
+echo "press any key to continue"
+read stopper
+
+#archive the users home folder 
+
+sudo tar cfjv $username.tar.bz /home/$username
+
+#remove CRONjobs
+sudo ls -lh /var/spool/cron/crontabs/$username
+sudo crontab -r -u $username
+
+# remove pending print jobs 
+lprm -U $username
+
+# remove account 
+# look into these two commands 
+# both cmds do the smae thing
+#sudo deluser --remove-home $username
+sudo userdel --remove $username
+
+sudo less /etc/group | grep $username
+
